@@ -1,0 +1,35 @@
+server:
+  port: 8081 # Runs processor-service on port 8081 to prevent port conflicts with gateway.
+
+spring:
+  application:
+    name: processor-service # Microservice name identifier.
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092} # EventHub Kafka broker bootstrap server address.
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # Serializes key as UTF-8 string.
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer # Serializes value as UTF-8 string.
+    consumer:
+      group-id: processor-cg # Consumer group ID for reading gateway-requests topic.
+      auto-offset-reset: earliest # Reads from beginning of topic when no offset is saved.
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes key as UTF-8 string.
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes value as UTF-8 string.
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info # Exposes health and info actuator endpoints.
+  endpoint:
+    health:
+      show-details: always # Shows detailed health check statuses.
+      probes:
+        enabled: true # Enables Kubernetes liveness/readiness probes.
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [traceId=%X{correlationId}] %-5level %logger{36} - %msg%n" # Console logging format containing MDC traceId.
+  level:
+    root: INFO # Sets root logging level to INFO.
+    com.example.processor: DEBUG # Sets processor service package logging level to DEBUG.
