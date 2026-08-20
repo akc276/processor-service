@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals // JUnit 5 assertion.
 import org.junit.jupiter.api.Test // JUnit 5 Test annotation.
 import org.mockito.Mockito.mock // Mockito mock creation.
 import org.mockito.kotlin.any // Mockito Kotlin any matcher.
+import org.mockito.kotlin.anyOrNull // Mockito Kotlin null-safe anyOrNull matcher.
 import org.mockito.kotlin.eq // Mockito Kotlin eq matcher.
 import org.mockito.kotlin.verify // Mockito Kotlin verify method.
 import org.slf4j.MDC // SLF4J MDC context.
@@ -25,7 +26,7 @@ class RequestEventListenerTest {
 
         requestEventListener.listenRequest("Hello from gateway", record) // Triggers listener.
 
-        // Verifies responsePublisherService.publishResponse was called with topic `service-responses` and matching trace ID.
-        verify(responsePublisherService).publishResponse(eq("service-responses"), any(), eq(testCorrelationId))
+        // Verifies responsePublisherService.publishResponse was called with topic `service-responses`, payload, trace ID, and optional key.
+        verify(responsePublisherService).publishResponse(eq("service-responses"), any(), eq(testCorrelationId), anyOrNull())
     }
 }

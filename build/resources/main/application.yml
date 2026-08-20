@@ -29,7 +29,7 @@ management:
 
 logging:
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [traceId=%X{correlationId}] %-5level %logger{36} - %msg%n" # Console logging format containing MDC traceId.
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%thread] [traceId=%X{correlationId}] %-5level %logger{36} - %msg%n" # Console logging format containing application name and MDC traceId.
   level:
     root: INFO # Sets root logging level to INFO.
     com.example.processor: DEBUG # Sets processor service package logging level to DEBUG.

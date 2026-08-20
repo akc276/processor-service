@@ -15,13 +15,13 @@ class ResponsePublisherService(
         private val LOGGER = LoggerFactory.getLogger(ResponsePublisherService::class.java) // Logger instance for ResponsePublisherService.
     }
 
-    // Publishes response Kafka event to target topic with attached trace ID header.
-    fun publishResponse(topic: String, message: String, traceId: String) {
-        val record = ProducerRecord<String, String>(topic, message) // Constructs ProducerRecord with target topic and message payload.
+    // Publishes response Kafka event to target topic with optional key, payload, and attached trace ID headers.
+    fun publishResponse(topic: String, message: String, traceId: String, key: String? = null) {
+        val record = ProducerRecord<String, String>(topic, key, message) // Constructs ProducerRecord with topic, optional key, and message payload.
         record.headers().add(RecordHeader("X-Correlation-ID", traceId.toByteArray(StandardCharsets.UTF_8))) // Attaches X-Correlation-ID header.
         record.headers().add(RecordHeader("traceId", traceId.toByteArray(StandardCharsets.UTF_8))) // Attaches traceId header for cross-compatibility.
 
-        LOGGER.info("[processor-service] Producing response Kafka message to topic '{}' with traceId: {}", topic, traceId) // Logs response publishing event.
+        LOGGER.info("[processor-service] Producing response Kafka message to topic '{}' with key '{}' and traceId: {}", topic, key, traceId) // Logs response publishing event.
         kafkaTemplate.send(record) // Asynchronously publishes enriched ProducerRecord to EventHub broker.
     }
 }
