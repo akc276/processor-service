@@ -15,6 +15,10 @@ spring:
       auto-offset-reset: earliest # Reads from beginning of topic when no offset is saved.
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes key as UTF-8 string.
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes value as UTF-8 string.
+    template:
+      observation-enabled: true # Enables Micrometer observation tracing on KafkaTemplate.
+    listener:
+      observation-enabled: true # Enables Micrometer observation tracing on Kafka listeners.
 
 management:
   endpoints:
@@ -28,8 +32,6 @@ management:
         enabled: true # Enables Kubernetes liveness/readiness probes.
 
 logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [${spring.application.name}] [%thread] [traceId=%X{correlationId}] %-5level %logger{36} - %msg%n" # Console logging format containing application name and MDC traceId.
   level:
     root: INFO # Sets root logging level to INFO.
     com.example.processor: DEBUG # Sets processor service package logging level to DEBUG.

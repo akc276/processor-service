@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.processor.listener.RequestEventListenerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-20T15:01:12.464Z" hostname="Ankits-MacBook-Pro.local" time="0.147">
+<testsuite name="com.example.processor.listener.RequestEventListenerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-23T03:46:28.108Z" hostname="Ankits-MacBook-Pro.local" time="0.178">
   <properties/>
-  <testcase name="listenRequest extracts trace ID header and produces response with matching trace ID()" classname="com.example.processor.listener.RequestEventListenerTest" time="0.147"/>
-  <system-out><![CDATA[20:31:12.475 [Test worker] INFO com.example.processor.listener.RequestEventListener -- [processor-service] Received request event from consumer-api-gateway. Payload: 'Hello from gateway'
+  <testcase name="listenRequest consumes payload and produces response()" classname="com.example.processor.listener.RequestEventListenerTest" time="0.178"/>
+  <system-out><![CDATA[09:16:28.121 [Test worker] INFO com.example.processor.listener.RequestEventListener -- [processor-service] Received request event from consumer-api-gateway. Payload: 'Hello from gateway'
 ]]></system-out>
   <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
 WARNING: A Java agent has been loaded dynamically (/Users/ankit.kr.chahal/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.18.10/9426d28828bdcdf42666bb7a68c468279ea78f59/byte-buddy-agent-1.18.10.jar)

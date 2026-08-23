@@ -15,6 +15,10 @@ spring:
       auto-offset-reset: earliest # Reads from beginning of topic when no offset is saved.
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes key as UTF-8 string.
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Deserializes value as UTF-8 string.
+    template:
+      observation-enabled: true # Enables Micrometer observation tracing on KafkaTemplate.
+    listener:
+      observation-enabled: true # Enables Micrometer observation tracing on Kafka listeners.
 
 management:
   endpoints:

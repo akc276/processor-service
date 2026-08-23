@@ -19,14 +19,10 @@ class RequestEventListenerTest {
     private val requestEventListener = RequestEventListener(responsePublisherService) // Instantiates listener under test.
 
     @Test
-    fun `listenRequest extracts trace ID header and produces response with matching trace ID`() {
-        val testCorrelationId = "processor-test-trace-8888" // Sample trace ID string.
-        val record = ConsumerRecord<String, String>("gateway-requests", 0, 0L, "key", "Hello from gateway") // Constructs Kafka consumer record.
-        record.headers().add(RecordHeader("X-Correlation-ID", testCorrelationId.toByteArray(StandardCharsets.UTF_8))) // Attaches trace header.
+    fun `listenRequest consumes payload and produces response`() {
+        requestEventListener.listenRequest("Hello from gateway") // Triggers listener.
 
-        requestEventListener.listenRequest("Hello from gateway", record) // Triggers listener.
-
-        // Verifies responsePublisherService.publishResponse was called with topic `service-responses`, payload, trace ID, and optional key.
-        verify(responsePublisherService).publishResponse(eq("service-responses"), any(), eq(testCorrelationId), anyOrNull())
+        // Verifies responsePublisherService.publishResponse was called with topic `service-responses`, payload, and optional key.
+        verify(responsePublisherService).publishResponse(eq("service-responses"), any(), anyOrNull())
     }
 }

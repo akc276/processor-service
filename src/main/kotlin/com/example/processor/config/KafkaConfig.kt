@@ -49,7 +49,9 @@ class KafkaConfig {
     // Registers thread-safe KafkaTemplate Spring bean for publishing Kafka events.
     @Bean
     fun kafkaTemplate(): KafkaTemplate<String, String> {
-        return KafkaTemplate(producerFactory()) // Returns KafkaTemplate configured with producerFactory.
+        val template = KafkaTemplate(producerFactory()) // Returns KafkaTemplate configured with producerFactory.
+        template.setObservationEnabled(true) // Enables Micrometer Observation tracing for Kafka producers.
+        return template
     }
 
     // Configures ConsumerFactory with string deserializers and EventHub SASL credentials.
@@ -73,6 +75,7 @@ class KafkaConfig {
     fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>() // Instantiates container factory.
         factory.setConsumerFactory(consumerFactory()) // Sets consumer factory using setter.
+        factory.containerProperties.isObservationEnabled = true // Enables Micrometer Observation tracing for Kafka consumers.
         return factory // Returns listener container factory bean.
     }
 }
