@@ -21,6 +21,9 @@ spring:
       observation-enabled: true # Enables Micrometer observation tracing on Kafka listeners.
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0 # Ensures 100% of traces are sampled and context propagated
   endpoints:
     web:
       exposure:

@@ -23,25 +23,24 @@ repositories {
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools") // Development hot-reloading tools.
 
-    implementation("org.springframework.kafka:spring-kafka") // Spring Kafka starter for EventHub producer and consumer operations.
-    implementation("org.springframework.boot:spring-boot-starter-actuator") // Health and metrics monitoring endpoints starter.
-    implementation("org.springframework.boot:spring-boot-starter-webmvc") // Web MVC starter for embedded Tomcat web server.
-    implementation("org.jetbrains.kotlin:kotlin-reflect") // Reflective library support for Kotlin classes.
-    implementation("tools.jackson.module:jackson-module-kotlin") // Jackson JSON serialization/deserialization for Kotlin data classes.
+    // Core Starters
+    implementation("org.springframework.boot:spring-boot-starter-webmvc") // Web MVC starter for embedded Tomcat server
+    implementation("org.springframework.boot:spring-boot-starter-actuator") // Health and metrics monitoring endpoints starter
+    implementation("org.springframework.kafka:spring-kafka") // Spring Kafka starter for EventHub operations
 
-    testImplementation("org.springframework.boot:spring-boot-starter-actuator-test") // Test utilities for actuator metrics.
+    // Kotlin Reflection & Jackson
+    implementation("org.jetbrains.kotlin:kotlin-reflect") // Reflective library support for Kotlin classes
+    implementation("tools.jackson.module:jackson-module-kotlin") // Jackson JSON serialization for Kotlin
+
+    // Distributed Tracing
+    implementation("org.springframework.boot:spring-boot-micrometer-tracing") // Enables Spring Boot Tracer auto-configuration
+    implementation("org.springframework.boot:spring-boot-micrometer-tracing-brave") // Enables Spring Boot Brave auto-configuration
+    implementation("io.micrometer:micrometer-tracing-bridge-brave") // Brave bridge for W3C trace context & Kafka headers
+
+    // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-actuator-test") // Test utilities for actuator metrics.
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test") // Test framework for Web MVC layer.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5") // JUnit 5 integration library for Kotlin.
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher") // JUnit platform execution launcher engine.
-
-    // Logging & Micrometer Tracing
-    implementation("org.springframework.boot:spring-boot-micrometer-tracing") // Micrometer tracing abstraction starter.
-    implementation("org.springframework.boot:spring-boot-micrometer-tracing-brave") // Brave tracing bridge.
-    implementation("io.micrometer:micrometer-tracing") // Micrometer tracing core library.
-    implementation("io.micrometer:micrometer-tracing-bridge-brave") // Micrometer Brave bridge module.
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5") // JUnit 5 integration library for Kotlin
 }
 
 kotlin {
