@@ -36,7 +36,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-micrometer-tracing") // Enables Spring Boot Tracer auto-configuration
     implementation("org.springframework.boot:spring-boot-micrometer-tracing-brave") // Enables Spring Boot Brave auto-configuration
     implementation("io.micrometer:micrometer-tracing-bridge-brave") // Brave bridge for W3C trace context & Kafka headers
-    implementation("io.zipkin.contrib.brave:brave-kafka-interceptor:0.6.0") // Brave interceptor classes for Kafka producer & consumer headers
 
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")

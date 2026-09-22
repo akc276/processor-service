@@ -42,8 +42,7 @@ class KafkaConfig {
             CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_PLAINTEXT", // Required protocol for EventHubs Kafka endpoint.
             SaslConfigs.SASL_MECHANISM to "PLAIN", // Required SASL mechanism.
             SaslConfigs.SASL_JAAS_CONFIG to getJaasConfig(), // Injects EventHubs SASL authentication credentials.
-            "enable.metrics.push" to false, // Disables KIP-714 telemetry admin RPCs incompatible with Event Hubs.
-            ProducerConfig.INTERCEPTOR_CLASSES_CONFIG to listOf("brave.kafka.interceptor.TracingProducerInterceptor") // Injects W3C trace headers on send()
+            "enable.metrics.push" to false // Disables KIP-714 telemetry admin RPCs incompatible with Event Hubs.
         )
         return DefaultKafkaProducerFactory(configProps) // Instantiates DefaultKafkaProducerFactory with configuration properties.
     }
@@ -51,9 +50,7 @@ class KafkaConfig {
     // Registers thread-safe KafkaTemplate Spring bean for publishing Kafka events.
     @Bean
     fun kafkaTemplate(): KafkaTemplate<String, String> {
-        val template = KafkaTemplate(producerFactory()) // Returns KafkaTemplate configured with producerFactory.
-        template.setObservationEnabled(false) // Bypasses Micrometer Observation tracing for Kafka producers.
-        return template
+        return KafkaTemplate(producerFactory()) // Returns KafkaTemplate configured with producerFactory.
     }
 
     // Configures ConsumerFactory with string deserializers and EventHub SASL credentials.
@@ -68,8 +65,7 @@ class KafkaConfig {
             CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_PLAINTEXT",
             SaslConfigs.SASL_MECHANISM to "PLAIN",
             SaslConfigs.SASL_JAAS_CONFIG to getJaasConfig(),
-            "enable.metrics.push" to false, // Disables KIP-714 telemetry admin RPCs incompatible with Event Hubs.
-            ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG to listOf("brave.kafka.interceptor.TracingConsumerInterceptor") // Extracts trace context from headers on poll()
+            "enable.metrics.push" to false // Disables KIP-714 telemetry admin RPCs incompatible with Event Hubs.
         )
         return DefaultKafkaConsumerFactory(configProps) // Returns DefaultKafkaConsumerFactory.
     }
@@ -79,7 +75,6 @@ class KafkaConfig {
     fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>() // Instantiates container factory.
         factory.setConsumerFactory(consumerFactory()) // Sets consumer factory using setter.
-        factory.containerProperties.isObservationEnabled = false // Bypasses Micrometer Observation tracing for Kafka consumers.
         return factory // Returns listener container factory bean.
     }
 }
